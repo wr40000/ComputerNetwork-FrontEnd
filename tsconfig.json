@@ -1,0 +1,11 @@
+{
+  "include": ["./server"],
+  "exclude": ["./node_modules"],
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "lib": ["es2016", "dom"],
+    "outDir": "./dist"
+  },
+  "exclude": ["node_modules"]
+}

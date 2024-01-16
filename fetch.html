@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fetch</title>
+</head>
+
+<body>
+    <button id="stop">STOP</button>
+    <hr></hr>
+    <button type="file" id="send">Send</button>
+    <div id="progress"></div>
+    <script>
+        // text(): 将响应体解析为纯文本字符串并返回。
+        // json(): 将响应体解析为JSON格式并返回一个JavaScript对象。
+        // blob(): 将响应体解析为二进制数据并返回一个Blob对象。
+        // arrayBuffer(): 将响应体解析为二进制数据并返回一个ArrayBuffer对象。
+        // formData(): 将响应体解析为FormData对象
+
+        // fetch('http://localhost:3030/net/xhr_get').then(res => {
+        //     console.log(res);
+        //     return res.text()
+        // }).then(res => {
+        //     console.log(res);
+        // })
+
+        const abort = new AbortController()
+        // fetch('http://localhost:3030/net/xhr_post', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     signal: abort.signal,
+        //     body: JSON.stringify({
+        //         name: 'zhangsan',
+        //         age: 18
+        //     })
+        // }).then(res => {
+        //     console.log(res);
+        //     return res.json()
+        // }).then(res => {
+        //     console.log(res);
+        // })
+
+        document.querySelector('#stop').addEventListener('click', () => {
+            console.log('stop');
+            abort.abort()
+        })
+
+        const btn = document.querySelector('#send')
+        const sendFetch = async () => {
+            const data = await fetch('http://localhost:3030/net/fetch_post', {
+                signal: abort.signal
+            })
+            console.log("data: ", data);
+            //fetch 实现进度条
+            const response = data.clone()
+            const reader = data.body.getReader()
+            const contentLength = data.headers.get('Content-Length')
+            let loaded = 0
+            while (true) {
+                const { done, value } = await reader.read()
+                if (done) {
+                    break
+                }
+                loaded += value?.length || 0;
+                const progress = document.querySelector('#progress')
+                progress.innerHTML = (loaded / contentLength * 100).toFixed(2) + '%'
+            }
+            const text = await response.text()
+            console.log(text);
+        }
+        btn.addEventListener('click', sendFetch)
+
+
+
+    </script>
+</body>
+
+</html>

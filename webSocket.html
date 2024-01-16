@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>webSocket</title>
+</head>
+
+<body>
+    <div>
+        <ul id="list">
+
+        </ul>
+        <input type="text" id="input">
+        <button id="send">发送</button>
+        <button id="stop">断开</button>
+    </div>
+
+    <script>
+        //webSocket
+        const list = document.querySelector('#list');
+        const ws = new WebSocket('ws://localhost:3030/websocket');
+
+        ws.addEventListener('open', () => {
+            console.log('连接');
+        });
+
+        ws.addEventListener('message', (e) => {
+            let data = JSON.parse(e.data)
+            const li = document.createElement('li');
+            // data.state == 1 代表是心跳包，不做处理s
+            if (data.state == 2) {
+                li.innerText = data.message;
+                list.appendChild(li);
+            }else{
+                console.log(data.message);
+            }
+        });
+
+        const btn = document.querySelector('#send');
+        const input = document.querySelector('#input');
+        const stop = document.querySelector('#stop');
+        btn.addEventListener('click', () => {
+            if (input.value) {
+                ws.send(input.value)
+                input.value = ''
+            }
+        })
+        stop.addEventListener('click', () => {
+            ws.close()
+        })
+
+
+    </script>
+</body>
+
+</html>

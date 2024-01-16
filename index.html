@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端计算机网络</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        h1{
+            padding-left: 10px;
+        }
+        .menu{
+            margin-top: 20px;
+            height: 100px;
+            width: 100vw;
+            display: flex;
+            flex-direction: row;
+            align-items: start;
+            justify-content: start;
+        }
+        button{
+            height: 40px;
+            width: 110px;
+            margin-left: 10px;
+            border: none;
+            background-color: #000000;
+            color: #ffffff;
+            border-radius: 5px;
+            transition: all 0.3s linear;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        button:hover{
+            background-color: #ffffff;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <h1>前端计算机网络</h1>
+    <div class="menu">
+        <button onclick="goToPage(`Ajax`)">Ajax</button>
+        <button onclick="goToPage(`fetch`)">fetch</button>
+        <button onclick="goToPage(`SSE`)">SSE</button>
+        <button onclick="goToPage(`webSocket`)">webSocket</button>
+    </div>
+    
+    <script>
+        function goToPage(path) {
+            window.location.href = `${path}.html`;
+        }
+    </script>
+</body>
+</html>
