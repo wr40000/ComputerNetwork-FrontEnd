@@ -16,21 +16,56 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-/* GET home page. */
-router.get("/xhr_get", function (req, res, next) {
-  // console.log("有人访问xhr_get", req.body);
-  res.json({
-    code: 200,
-    route: req.path,
+router.get("/ajax", function (req, res, next) {
+  const query = req.url.split("=")[1];
+  const searchResults = generateSearchResults(query);
+  res.writeHead(200, {
+    "Content-Type": "application/json",
+    "Set-Cookie": "sessionId=/ajax; HttpOnly; Path=/",
   });
+  res.end(JSON.stringify(searchResults));
+});
+
+router.get("/xhr_get", function (req, res, next) {
+  try {
+    const cookie = req.headers.cookie.split("=")[1];
+    console.log("有人访问xhr_get, req.body: ", req.body, "cookie: ", cookie);
+  } catch (error) {
+    console.log(error);
+  }
+  console.log("有人访问xhr_get", req.query);
+  res.writeHead(200, {
+    "Content-Type": "application/json",
+    "Set-Cookie": "sessionId=/xhr_get; HttpOnly; Path=/; SameSite=None; Secure",
+    "Access-Control-Allow-Origin": "http://127.0.0.1:5502",
+    "Access-Control-Allow-Credentials": "true",
+  });
+
+  res.end(
+    JSON.stringify({
+      code: 200,
+      route: req.path,
+    })
+  );
 });
 
 router.post("/xhr_post", function (req, res, next) {
-  // console.log("有人访问xhr_post, req.body: ", req.body);
-  res.json({
-    code: 200,
-    route: req.path,
+  try {
+    const cookie = req.headers.cookie.split("=")[1];
+    console.log("有人访问xhr_post, req.body: ", req.body, "cookie: ", cookie);
+  } catch (error) {
+    console.log(error);
+  }
+  res.writeHead(200, {
+    "Access-Control-Allow-Origin": "http://127.0.0.1:5502",
+    "Access-Control-Allow-Credentials": "true",
   });
+  res.end(
+    JSON.stringify({
+      code: 200,
+      route: req.path,
+    })
+  );
 });
 
 router.post("/xhr_post_content_type", function (req, res, next) {
@@ -86,5 +121,13 @@ router.get("/sse", async function (req, res, next) {
     current++;
   }, 50);
 });
+
+function generateSearchResults(query) {
+  const results = [];
+  for (let i = 0; i < 5; i++) {
+    results.push(`Result ${query}-${i}`);
+  }
+  return results;
+}
 
 module.exports = router;

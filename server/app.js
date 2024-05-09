@@ -9,6 +9,7 @@ var expressWs = require("express-ws");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var xhrRouter = require("./routes/xhr");
+var noteRouter = require("./routes/note");
 
 var app = express();
 
@@ -19,7 +20,7 @@ app.set("view engine", "ejs");
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
-app.use("/static", express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 const wss = expressWs(app);
@@ -27,6 +28,7 @@ const wss = expressWs(app);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/net", xhrRouter);
+app.use("/note", noteRouter);
 
 const state = {
   HEART: 1,  // 代表是心跳包

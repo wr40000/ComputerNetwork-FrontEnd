@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var source = new EventSource('http://localhost:8088/evt');
+        source.addEventListener('lol', function (e) {
+            console.log(e);
+        }, false);
+        source.onopen = function () {
+            console.log('connected');
+        }
+        source.onerror = function (err) {
+            console.log(err);
+        }
+    </script>
+</body>
+
+</html>

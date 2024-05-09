@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SSE</title>
     <style>
-        #text{
+        #text {
             background-image: linear-gradient(90deg, red, blue);
             font-size: 24px;
             font-family: Helvetica;
@@ -21,9 +21,10 @@
     <button id="close">
         关闭连接
     </button>
-    <hr/>
+    <hr />
     <span id="text"></span>
     <script>
+        // if 逻辑有问题
         const btn_close = document.querySelector('#close')
         const text = document.querySelector('#text')
         let strArray = []; // 使用数组存储字符串片段
@@ -53,6 +54,7 @@
         } else if (eventSource.readyState === EventSource.CLOSED) {
             console.log('连接已经关闭。');
         }
+
 
         btn_close.onclick = () => {
             eventSource.close();

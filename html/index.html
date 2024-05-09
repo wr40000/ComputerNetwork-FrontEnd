@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>前端计算机网络</title>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        h1{
+
+        @font-face {
+            font-family: "魔導太丸ゴシック";
+            src: url('./static/font/魔導太丸ゴシック.ttf')
+        }
+
+        h1 {
+            font-family: "魔導太丸ゴシック";
             padding-left: 10px;
         }
-        .menu{
+
+        .menu {
             margin-top: 20px;
             height: 100px;
             width: 100vw;
@@ -22,7 +31,8 @@
             align-items: start;
             justify-content: start;
         }
-        button{
+
+        button {
             height: 40px;
             width: 110px;
             margin-left: 10px;
@@ -34,12 +44,14 @@
             font-size: 18px;
             font-weight: 700;
         }
-        button:hover{
+
+        button:hover {
             background-color: #ffffff;
             color: #000000;
         }
     </style>
 </head>
+
 <body>
     <h1>前端计算机网络</h1>
     <div class="menu">
@@ -48,11 +60,12 @@
         <button onclick="goToPage(`SSE`)">SSE</button>
         <button onclick="goToPage(`webSocket`)">webSocket</button>
     </div>
-    
+
     <script>
         function goToPage(path) {
             window.location.href = `${path}.html`;
         }
     </script>
 </body>
+
 </html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function createStreamClient(url, progress, done) {
+            //received为接收到数据的计数器
+            var xhr = new XMLHttpRequest(), received = 0;
+            xhr.open("get", url, true);
+            xhr.onreadystatechange = function () {
+                var result;
+                if (xhr.readyState == 3) {
+                    console.log("xhr.response: ",xhr.response);
+                    console.log("xhr.responseText: ",xhr.responseText);
+                    console.log("xhr.responseType: ",xhr.responseType);
+                    console.log("xhr.responseURL: ",xhr.responseURL);
+                    console.log("xhr.responseXML: ",xhr.responseXML);
+                    console.log("xhr.status: ",xhr.status);
+                    console.log("xhr.statusText: ",xhr.statusText);
+                    console.log("xhr.withCredentials: ",xhr.withCredentials);
+                    result = xhr.responseText.substring(received);
+                    received += result.length;
+                    progress(result);
+                } else if (xhr.readyState == 4) {
+                    done(xhr.responseText);
+                }
+            };
+            xhr.send(null);
+            return xhr;
+        }
+        var client = createStreamClient("http://localhost:8088/stream", function (data) {
+            console.log("Received:" + data);
+        }, function (data) {
+            console.log("Done,the last data is:" + data);
+        })
+    </script>
+</body>
+
+</html>
